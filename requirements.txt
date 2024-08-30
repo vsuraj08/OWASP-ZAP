@@ -1,0 +1,5 @@
+requests
+pyyaml
+together
+owasp-zap-v2.4
+matplotlib

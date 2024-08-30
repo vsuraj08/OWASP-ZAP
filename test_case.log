@@ -1,0 +1,154 @@
+2024-08-30 03:05:15,907 - INFO - Loaded API Endpoints: [{'url': 'https://api.linkup.auenkr.me/api/mentor/all', 'headers': {'Accept': 'application/json, text/plain', 'Accept-Language': 'en-IN,en;q=0.7', 'Connection': 'keep-alive'}}]
+2024-08-30 03:05:15,907 - INFO - Starting spider scan on URL https://api.linkup.auenkr.me/api/mentor/all
+2024-08-30 03:05:25,960 - INFO - Spider scan completed for URL https://api.linkup.auenkr.me/api/mentor/all
+2024-08-30 03:05:25,960 - INFO - Starting active scan on URL https://api.linkup.auenkr.me/api/mentor/all
+2024-08-30 03:05:26,007 - INFO - Active scan progress: 0%
+2024-08-30 03:05:31,030 - INFO - Active scan progress: 38%
+2024-08-30 03:05:36,053 - INFO - Active scan progress: 87%
+2024-08-30 03:05:41,075 - INFO - Active scan progress: 91%
+2024-08-30 03:05:46,106 - INFO - Active scan completed for URL https://api.linkup.auenkr.me/api/mentor/all
+2024-08-30 03:05:46,175 - INFO - OWASP ZAP report generated
+2024-08-30 03:05:56,042 - INFO - Generated Test Case for URL https://api.linkup.auenkr.me/api/mentor/all: **API Security Risk Assessment Report**
+
+| **Risk** | **Description** | **Test Case** | **Result** |
+| --- | --- | --- | --- |
+| **BOLA (Broken Object Level Authorization)** | Failing to enforce authorization on a per-object basis, allowing unauthorized access to sensitive data. | Attempt to access a mentor's data by modifying the `id` parameter in the URL: `https://api.linkup.auenkr.me/api/mentor/123` (assuming `123` is not the current user's ID) | **NOT SAFE** |
+| **Broken Authentication** | Failing to properly authenticate users, allowing unauthorized access to sensitive data. | Send a request without the `Authorization` header or with an invalid token: `https://api.linkup.auenkr.me/api/mentor/all` | **NOT SAFE** |
+| **BFLA (Broken Function Level Authorization)** | Failing to enforce authorization on a per-function basis, allowing unauthorized access to sensitive functions. | Attempt to access a restricted endpoint (e.g., `https://api.linkup.auenkr.me/api/admin/mentor/all`) without proper authorization | **SAFE** (assuming the endpoint doesn't exist or returns an error) |
+| **Broken Object Property Level Authorization** | Failing to enforce authorization on a per-property basis, allowing unauthorized access to sensitive data. | Attempt to access a mentor's sensitive property (e.g., `https://api.linkup.auenkr.me/api/mentor/all?include=sensitiveProperty`) | **NOT SAFE** |
+| **Unrestricted Resource Consumption** | Failing to limit the amount of resources (e.g., data, CPU) that can be consumed by an attacker. | Send a large number of requests to the API in a short amount of time to test rate limiting: `https://api.linkup.auenkr.me/api/mentor/all` ( repeat 100 times) | **NOT SAFE** |
+| **Unrestricted Access to Sensitive Business Flows** | Failing to restrict access to sensitive business flows, allowing unauthorized access to sensitive data. | Attempt to access a sensitive business flow (e.g., `https://api.linkup.auenkr.me/api/mentor/all?flow=sensitiveFlow`) | **NOT SAFE** |
+| **SSRF (Server-Side Request Forgery)** | Allowing an attacker to make unauthorized requests to internal or external services. | Attempt to make a request to an
+Generated Test Case for https://api.linkup.auenkr.me/api/mentor/all:
+**API Security Risk Assessment Report**
+
+| **Risk** | **Description** | **Test Case** | **Result** |
+| --- | --- | --- | --- |
+| **BOLA (Broken Object Level Authorization)** | Failing to enforce authorization on a per-object basis, allowing unauthorized access to sensitive data. | Attempt to access a mentor's data by modifying the `id` parameter in the URL: `https://api.linkup.auenkr.me/api/mentor/123` (assuming `123` is not the current user's ID) | **NOT SAFE** |
+| **Broken Authentication** | Failing to properly authenticate users, allowing unauthorized access to sensitive data. | Send a request without the `Authorization` header or with an invalid token: `https://api.linkup.auenkr.me/api/mentor/all` | **NOT SAFE** |
+| **BFLA (Broken Function Level Authorization)** | Failing to enforce authorization on a per-function basis, allowing unauthorized access to sensitive functions. | Attempt to access a restricted endpoint (e.g., `https://api.linkup.auenkr.me/api/admin/mentor/all`) without proper authorization | **SAFE** (assuming the endpoint doesn't exist or returns an error) |
+| **Broken Object Property Level Authorization** | Failing to enforce authorization on a per-property basis, allowing unauthorized access to sensitive data. | Attempt to access a mentor's sensitive property (e.g., `https://api.linkup.auenkr.me/api/mentor/all?include=sensitiveProperty`) | **NOT SAFE** |
+| **Unrestricted Resource Consumption** | Failing to limit the amount of resources (e.g., data, CPU) that can be consumed by an attacker. | Send a large number of requests to the API in a short amount of time to test rate limiting: `https://api.linkup.auenkr.me/api/mentor/all` ( repeat 100 times) | **NOT SAFE** |
+| **Unrestricted Access to Sensitive Business Flows** | Failing to restrict access to sensitive business flows, allowing unauthorized access to sensitive data. | Attempt to access a sensitive business flow (e.g., `https://api.linkup.auenkr.me/api/mentor/all?flow=sensitiveFlow`) | **NOT SAFE** |
+| **SSRF (Server-Side Request Forgery)** | Allowing an attacker to make unauthorized requests to internal or external services. | Attempt to make a request to an
+2024-08-30 03:05:56,509 - INFO - Advanced Test Case - SQL Injection Attempt - Status Code: 200, Response: {"mentors":[{"id":"2","name":"Bruce Wayne","desc":"John has over 10 years of experience in the tech industry, with a strong background in product management\n            and user experience design. He has worked on a variety of projects, from enterprise software to\n            consumer-facing applications.","imgSrc":"https://static1.moviewebimages.com/wordpress/wp-content/uploads/2022/02/robert-pattinson-the-batman.jpg","currPost":"Senior Product Manager","industry":["Advertising","Aerospace","Agriculture","Ecommerce"],"skills":["Product Management","User Experience","Agile Methodologies","Market Analysis","Customer Insights"],"currMentor":["Acme Inc.","Jugad Inc."]},{"id":"3","name":"John Show","desc":"John has over 10 years of experience in the tech industry, with a strong background in product management\n            and user experience design. He has worked on a variety of projects, from enterprise software to\n            consumer-facing applications.","imgSrc":"https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg","currPost":"Senior Product Manager","industry":["Advertising","Aerospace","Agriculture","Ecommerce"],"skills":["Product Management","User Experience","Agile Methodologies","Market Analysis","Customer Insights"],"currMentor":["Acme Inc.","Jugad Inc."]},{"id":"11","name":"Prathmesh","desc":"","imgSrc":"https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yaE5NU2hmeEFKTGVYMjNqZXhBMEVOSGZocHcifQ","currPost":"","industry":[],"skills":[],"currMentor":[]},{"id":"15","name":"PRATHMESH","desc":"","imgSrc":"https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yaDhiVWVKc200ZTlYaDYyVklDUFUyWTg3ZjMifQ","currPost":"","industry":[],"skills":[],"currMentor":[]}]}
+2024-08-30 03:05:57,274 - INFO - Advanced Test Case - XSS Attack Attempt - Status Code: 200, Response: {"mentors":[{"id":"2","name":"Bruce Wayne","desc":"John has over 10 years of experience in the tech industry, with a strong background in product management\n            and user experience design. He has worked on a variety of projects, from enterprise software to\n            consumer-facing applications.","imgSrc":"https://static1.moviewebimages.com/wordpress/wp-content/uploads/2022/02/robert-pattinson-the-batman.jpg","currPost":"Senior Product Manager","industry":["Advertising","Aerospace","Agriculture","Ecommerce"],"skills":["Product Management","User Experience","Agile Methodologies","Market Analysis","Customer Insights"],"currMentor":["Acme Inc.","Jugad Inc."]},{"id":"3","name":"John Show","desc":"John has over 10 years of experience in the tech industry, with a strong background in product management\n            and user experience design. He has worked on a variety of projects, from enterprise software to\n            consumer-facing applications.","imgSrc":"https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg","currPost":"Senior Product Manager","industry":["Advertising","Aerospace","Agriculture","Ecommerce"],"skills":["Product Management","User Experience","Agile Methodologies","Market Analysis","Customer Insights"],"currMentor":["Acme Inc.","Jugad Inc."]},{"id":"11","name":"Prathmesh","desc":"","imgSrc":"https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yaE5NU2hmeEFKTGVYMjNqZXhBMEVOSGZocHcifQ","currPost":"","industry":[],"skills":[],"currMentor":[]},{"id":"15","name":"PRATHMESH","desc":"","imgSrc":"https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yaDhiVWVKc200ZTlYaDYyVklDUFUyWTg3ZjMifQ","currPost":"","industry":[],"skills":[],"currMentor":[]}]}
+2024-08-30 03:05:57,603 - INFO - Advanced Test Case - Large Payload Test - Status Code: 414, Response: <html>
+<head><title>414 Request-URI Too Large</title></head>
+<body>
+<center><h1>414 Request-URI Too Large</h1></center>
+<hr><center>nginx/1.24.0 (Ubuntu)</center>
+</body>
+</html>
+
+2024-08-30 03:05:58,192 - INFO - Advanced Test Case - Rate Limiting Test - Status Code: 200, Response: {"mentors":[{"id":"2","name":"Bruce Wayne","desc":"John has over 10 years of experience in the tech industry, with a strong background in product management\n            and user experience design. He has worked on a variety of projects, from enterprise software to\n            consumer-facing applications.","imgSrc":"https://static1.moviewebimages.com/wordpress/wp-content/uploads/2022/02/robert-pattinson-the-batman.jpg","currPost":"Senior Product Manager","industry":["Advertising","Aerospace","Agriculture","Ecommerce"],"skills":["Product Management","User Experience","Agile Methodologies","Market Analysis","Customer Insights"],"currMentor":["Acme Inc.","Jugad Inc."]},{"id":"3","name":"John Show","desc":"John has over 10 years of experience in the tech industry, with a strong background in product management\n            and user experience design. He has worked on a variety of projects, from enterprise software to\n            consumer-facing applications.","imgSrc":"https://pbs.twimg.com/media/FjU2lkcWYAgNG6d.jpg","currPost":"Senior Product Manager","industry":["Advertising","Aerospace","Agriculture","Ecommerce"],"skills":["Product Management","User Experience","Agile Methodologies","Market Analysis","Customer Insights"],"currMentor":["Acme Inc.","Jugad Inc."]},{"id":"11","name":"Prathmesh","desc":"","imgSrc":"https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yaE5NU2hmeEFKTGVYMjNqZXhBMEVOSGZocHcifQ","currPost":"","industry":[],"skills":[],"currMentor":[]},{"id":"15","name":"PRATHMESH","desc":"","imgSrc":"https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yaDhiVWVKc200ZTlYaDYyVklDUFUyWTg3ZjMifQ","currPost":"","industry":[],"skills":[],"currMentor":[]}]}
+2024-08-30 03:05:58,320 - INFO - Advanced Test Case - Broken Object Level Authorization - Status Code: 404, Response: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/mentor/all/object_level_access</pre>
+</body>
+</html>
+
+2024-08-30 03:05:58,805 - INFO - Advanced Test Case - Broken Authentication - Status Code: 404, Response: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /api/mentor/all/login</pre>
+</body>
+</html>
+
+2024-08-30 03:05:59,114 - INFO - Advanced Test Case - Broken Object Property Level Authorization - Status Code: 404, Response: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/mentor/all/object_property</pre>
+</body>
+</html>
+
+2024-08-30 03:05:59,319 - INFO - Advanced Test Case - Unrestricted Resource Consumption - Status Code: 404, Response: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/mentor/all/resource_consumption</pre>
+</body>
+</html>
+
+2024-08-30 03:05:59,588 - INFO - Advanced Test Case - Broken Function Level Authorization - Status Code: 404, Response: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /api/mentor/all/admin_function</pre>
+</body>
+</html>
+
+2024-08-30 03:05:59,754 - INFO - Advanced Test Case - Unrestricted Access to Sensitive Business Flows - Status Code: 404, Response: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /api/mentor/all/sensitive_flow</pre>
+</body>
+</html>
+
+2024-08-30 03:05:59,933 - INFO - Advanced Test Case - Server Side Request Forgery (SSRF) - Status Code: 404, Response: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /api/mentor/all/ssrf_vulnerable</pre>
+</body>
+</html>
+
+2024-08-30 03:06:00,322 - INFO - Advanced Test Case - Security Misconfiguration - Status Code: 404, Response: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/mentor/all/config</pre>
+</body>
+</html>
+
+2024-08-30 03:06:00,752 - INFO - Advanced Test Case - Improper Inventory Management - Status Code: 404, Response: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /api/mentor/all/api_versions</pre>
+</body>
+</html>
+
+2024-08-30 03:06:01,086 - INFO - Advanced Test Case - Unsafe Consumption of APIs - Status Code: 404, Response: <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot POST /api/mentor/all/consume_third_party</pre>
+</body>
+</html>
+

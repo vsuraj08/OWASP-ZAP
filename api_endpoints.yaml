@@ -1,0 +1,185 @@
+- url: "https://api.linkup.auenkr.me/api/mentor/all"
+  headers:
+    Accept: "application/json, text/plain"
+    Accept-Language: "en-IN,en;q=0.7"
+    Connection: "keep-alive"
+    
+
+
+# {
+#   "openapi": "3.0.0",
+#   "info": {
+#     "title": "Blog API",
+#     "version": "1.0.0"
+#   },
+#   "servers": [
+#     {
+#       "url": "https://backend.auenkumar64.workers.dev/api/v1"
+#     }
+#   ],
+#   "paths": {
+#     "/blog/totalPost": {
+#       "get": {
+#         "summary": "Get total number of blog posts",
+#         "security": [
+#           {
+#             "bearerAuth": []
+#           }
+#         ],
+#         "responses": {
+#           "200": {
+#             "description": "Successful response",
+#             "content": {
+#               "application/json": {
+#                 "schema": {
+#                   "type": "object",
+#                   "properties": {
+#                     "totalPost": {
+#                       "type": "integer",
+#                       "example": 35
+#                     }
+#                   }
+#                 }
+#               }
+#             }
+#           }
+#         }
+#       }
+#     },
+#     "/user/me": {
+#       "get": {
+#         "summary": "Get user information",
+#         "security": [
+#           {
+#             "bearerAuth": []
+#           }
+#         ],
+#         "responses": {
+#           "200": {
+#             "description": "Successful response",
+#             "content": {
+#               "application/json": {
+#                 "schema": {
+#                   "type": "object",
+#                   "properties": {
+#                     "msg": {
+#                       "type": "string",
+#                       "example": "Valid User"
+#                     },
+#                     "userId": {
+#                       "type": "object",
+#                       "properties": {
+#                         "id": {
+#                           "type": "string",
+#                           "example": "4d448ec5-7b1b-4f1d-aa97-7acdffe0f5db"
+#                         },
+#                         "email": {
+#                           "type": "string",
+#                           "example": "auenkumar64@gmail.com"
+#                         },
+#                         "name": {
+#                           "type": "string",
+#                           "example": "Golden Kumar"
+#                         }
+#                       }
+#                     }
+#                   }
+#                 }
+#               }
+#             }
+#           }
+#         }
+#       }
+#     },
+#     "/blog/bulk": {
+#       "get": {
+#         "summary": "Get a list of blog posts",
+#         "parameters": [
+#           {
+#             "name": "page",
+#             "in": "query",
+#             "required": false,
+#             "schema": {
+#               "type": "integer",
+#               "example": 0
+#             }
+#           }
+#         ],
+#         "security": [
+#           {
+#             "bearerAuth": []
+#           }
+#         ],
+#         "responses": {
+#           "200": {
+#             "description": "Successful response",
+#             "content": {
+#               "application/json": {
+#                 "schema": {
+#                   "type": "object",
+#                   "properties": {
+#                     "msg": {
+#                       "type": "string",
+#                       "example": "List all blogs"
+#                     },
+#                     "blogs": {
+#                       "type": "array",
+#                       "items": {
+#                         "type": "object",
+#                         "properties": {
+#                           "id": {
+#                             "type": "string",
+#                             "example": "16f4c94b-0a26-497b-b4dc-1e1b5513f8a4"
+#                           },
+#                           "title": {
+#                             "type": "string",
+#                             "example": "test"
+#                           },
+#                           "content": {
+#                             "type": "string",
+#                             "example": "<p>fsadfdsf fdasdf fdsafdsfds</p>"
+#                           },
+#                           "published": {
+#                             "type": "boolean",
+#                             "example": true
+#                           },
+#                           "createdAt": {
+#                             "type": "string",
+#                             "format": "date-time",
+#                             "example": "2024-08-13T11:22:13.318Z"
+#                           },
+#                           "author": {
+#                             "type": "object",
+#                             "properties": {
+#                               "name": {
+#                                 "type": "string",
+#                                 "example": "Abc"
+#                               },
+#                               "email": {
+#                                 "type": "string",
+#                                 "example": "goldenkumarp64@gmail.com"
+#                               }
+#                             }
+#                           }
+#                         }
+#                       }
+#                     }
+#                   }
+#                 }
+#               }
+#             }
+#           }
+#         }
+#       }
+#     }
+#   },
+#   "components": {
+#     "securitySchemes": {
+#       "bearerAuth": {
+#         "type": "http",
+#         "scheme": "bearer",
+#         "bearerFormat": "JWT"
+#       }
+#     }
+#   }
+# }

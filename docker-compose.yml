@@ -1,0 +1,25 @@
+# version: '3'
+# services:
+#   zap:
+#     image: zaproxy/zap-stable  # This line specifies the Docker image to use
+#     container_name: owasp_zap  # This is the name for the container instance
+#    ports:
+#   - "8082:8080"  # Map host port 8081 to container port 8080
+#  # Maps port 8080 on your host to port 8080 in the container
+#     environment:
+#       - ZAP_APIKEY=abc123xyz  # Sets the API key for OWASP ZAP
+#     command: zap.sh -daemon  # Runs ZAP in daemon mode
+
+
+version: '3.7'
+services:
+  zap:
+    image: zaproxy/zap-stable
+    container_name: owasp_zap
+    ports:
+      - "8080:8080"
+    environment:
+      - ZAP_API_KEY=abc123abc
+    command: zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.key=abc123abc
+    volumes:
+      - ./api_security_system:/zap/wrk
