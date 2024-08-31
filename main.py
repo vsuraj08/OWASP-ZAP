@@ -20,6 +20,31 @@ zap = ZAPv2(apikey='abc123abc', proxies={'http': zap_base_url, 'https': zap_base
 # Initialize Together Client
 together_client = Together(api_key="ec9520d163d357d5ed7414ed993c027fdcd36c7d5c64149811fcc85f201db981")
 
+
+
+HTML_TEMPLATE = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {{ font-family: Arial, sans-serif; margin: 20px; }}
+        h2 {{ color: #333; }}
+        .section {{ margin-bottom: 40px; }}
+        .test-case {{ background-color: #f9f9f9; padding: 10px; border-radius: 5px; }}
+        .execution {{ background-color: #e6f7ff; padding: 10px; border-radius: 5px; }}
+        .evaluation {{ background-color: #e6ffe6; padding: 10px; border-radius: 5px; }}
+    </style>
+    <title>API Security Test Report</title>
+</head>
+<body>
+    <h1>API Security Test Report</h1>
+    {content}
+</body>
+</html>
+"""
+
 # Define expected responses for each alert type
 expected_responses = {
     "Re-examine Cache-control Directives": "The Cache-Control header should be set to ensure proper caching policies.",
@@ -43,6 +68,270 @@ def load_api_endpoints(file_path):
 
 # 2. Generate Test Cases using LLM
 # 2. Generate Test Cases using LLM
+# def generate_execute_evaluate_test_cases(endpoint, method, details):
+#     # Step 1: Generate super-advanced test cases
+#     generate_prompt = f"""
+#     Generate super-advanced test cases for the following API endpoint to cover OWASP Top 10 API risks:
+    
+#     Endpoint: {endpoint}
+#     Method: {method}
+#     Security: {details.get('security', 'None')}
+#     Parameters: {details.get('parameters', 'None')}
+#     Responses: {details.get('responses', 'None')}
+#     """
+#     test_cases_response = together_client.chat.completions.create(
+#         model="meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
+#         messages=[
+#             {"role": "system", "content": "You are an expert in API security."},
+#             {"role": "user", "content": generate_prompt},
+#         ],
+#         max_tokens=699,
+#         temperature=0.11,
+#         top_p=1,
+#         top_k=50,
+#         repetition_penalty=1,
+#         stop=["<|eot_id|>"],
+#     )
+#     test_cases = test_cases_response.choices[0].message.content
+
+#     # Step 2: Execute the test cases (Simulated)
+#     execution_prompt = f"""
+#     Simulate the execution of the following test cases for the API endpoint and provide results:
+    
+#     Endpoint: {endpoint}
+#     Method: {method}
+#     Test Cases: {test_cases}
+#     """
+#     execution_response = together_client.chat.completions.create(
+#         model="meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
+#         messages=[
+#             {"role": "system", "content": "You are an expert in API testing."},
+#             {"role": "user", "content": execution_prompt},
+#         ],
+#         max_tokens=699,
+#         temperature=0.11,
+#         top_p=1,
+#         top_k=50,
+#         repetition_penalty=1,
+#         stop=["<|eot_id|>"],
+#     )
+#     execution_results = execution_response.choices[0].message.content
+
+#     # Step 3: Evaluate the execution results
+#     evaluate_prompt = f"""
+#     Evaluate the results of the executed test cases for the API endpoint:
+    
+#     Endpoint: {endpoint}
+#     Method: {method}
+#     Execution Results: {execution_results}
+    
+#     Provide a conclusion on whether the API is secure according to OWASP Top 10 API risks.
+#     """
+#     evaluation_response = together_client.chat.completions.create(
+#         model="meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo",
+#         messages=[
+#             {"role": "system", "content": "You are an expert in API security evaluation."},
+#             {"role": "user", "content": evaluate_prompt},
+#         ],
+#         max_tokens=699,
+#         temperature=0.11,
+#         top_p=1,
+#         top_k=50,
+#         repetition_penalty=1,
+#         stop=["<|eot_id|>"],
+#     )
+#     evaluation = evaluation_response.choices[0].message.content
+
+#     # Function to convert plain text into HTML formatted blocks
+#     def convert_to_html_blocks(text):
+#         blocks = text.split('\n')
+#         html_blocks = []
+#         for block in blocks:
+#             if block.strip():
+#                 html_blocks.append(f"<div class='test-case-block'>{block.strip()}</div>")
+#         return ''.join(html_blocks)
+
+#     formatted_test_cases = convert_to_html_blocks(test_cases)
+#     formatted_execution_results = convert_to_html_blocks(execution_results)
+#     formatted_evaluation = convert_to_html_blocks(evaluation)
+
+#     # Create HTML section with CSS styling
+#     html_section = f"""
+#     <style>
+#         .section {{
+#             margin-bottom: 20px;
+#             font-family: Arial, sans-serif;
+#         }}
+#         .test-case, .execution, .evaluation {{
+#             margin-top: 20px;
+#             padding: 15px;
+#             border: 1px solid #ddd;
+#             border-radius: 5px;
+#             background-color: #f9f9f9;
+#         }}
+#         .test-case-block, .execution-block, .evaluation-block {{
+#             margin-bottom: 20px;
+#             padding: 10px;
+#             border-bottom: 1px solid #ddd;
+#         }}
+#         .test-case-block:last-child, .execution-block:last-child, .evaluation-block:last-child {{
+#             border-bottom: none;
+#         }}
+#         .header {{
+#             color: #000;
+#             font-weight: bold;
+#             font-size: 1.2em;
+#             margin-bottom: 15px;
+#         }}
+#         .test-case-block, .execution-block, .evaluation-block {{
+#             background-color: #ffffff;
+#         }}
+#         .sub-header {{
+#             color: #000;
+#             font-weight: bold;
+#             font-size: 1.1em;
+#             margin-top: 10px;
+#             margin-bottom: 10px;
+#         }}
+#         .final-conclusion {{
+#             color: #000;
+#             font-weight: bold;
+#             font-size: 1.2em;
+#             margin-top: 20px;
+#         }}
+#     </style>
+    
+#     <div class="section">
+#         <h2 style="color: #2c3e50;">Endpoint: {endpoint} | Method: {method}</h2>
+        
+#         <div class="test-case">
+#             <h3 class="header">Generated Test Cases</h3>
+#             <div class="sub-header">{formatted_test_cases}</div>
+#         </div>
+
+#         <div class="execution">
+#             <h3 class="header">Execution Results</h3>
+#             <div class="sub-header">{formatted_execution_results}</div>
+#         </div>
+
+#         <div class="evaluation">
+#             <h3 class="header">Evaluation</h3>
+#             <div class="sub-header">{formatted_evaluation}</div>
+#             <div class="final-conclusion">Final Conclusion: {evaluation}</div>
+#         </div>
+#     </div>
+#     """
+#     return html_section
+
+
+
+
+
+
+
+# # Process API documentation
+# def process_api_documentation(api_data):
+#     content = ""
+#     paths = api_data.get("paths", {})
+#     for endpoint, methods in paths.items():
+#         for method, details in methods.items():
+#             html_section = generate_execute_evaluate_test_cases(endpoint, method, details)
+#             content += html_section
+    
+#     # Write the HTML content to the log file
+#     html_content = HTML_TEMPLATE.format(content=content)
+#     with open('llm_test.log', 'w') as file:
+#         file.write(html_content)
+
+
+# 6. OWASP ZAP Scanning
+# 6. OWASP ZAP Scanning
+# 6. OWASP ZAP Scanning
+def perform_zap_scan(api_file):
+    try:
+        # Load API Endpoints
+        api_endpoints = load_api_endpoints(api_file)
+
+        # Run ZAP Spider
+        for path in api_endpoints['paths']:
+            url = f"{api_endpoints['servers'][0]['url']}{path}"
+            zap.spider.scan(url)
+            logging.info(f"Scanning URL: {url}")
+
+        # Wait for Spider to complete
+        while int(zap.spider.status()) < 100:
+            time.sleep(5)
+
+        # Run ZAP Active Scan
+        for path in api_endpoints['paths']:
+            url = f"{api_endpoints['servers'][0]['url']}{path}"
+            zap.ascan.scan(url)
+            logging.info(f"Active scanning URL: {url}")
+
+        # Wait for Active Scan to complete
+        while int(zap.ascan.status()) < 100:
+            time.sleep(5)
+
+        # Get Alerts
+        alerts = zap.core.alerts()
+        logging.info(f"Alerts: {alerts}")
+
+        # Save JSON Report
+        with open("zap_report.json", 'w') as f:
+            json.dump(alerts, f, indent=4)
+            logging.info("Saved ZAP Report (JSON)")
+
+        # Save HTML Report
+        html_report_path = "zap_report.html"
+        with open(html_report_path, 'w') as f:
+            f.write(zap.core.htmlreport())
+        logging.info(f"Saved ZAP Report (HTML) at {html_report_path}")
+
+        return alerts
+    except Exception as e:
+        logging.error(f"Error during ZAP scanning: {e}")
+        raise
+
+
+# Main Execution
+# Main Execution
+def main(api_file):
+    try:
+        # Perform ZAP Scan
+        alerts = perform_zap_scan(api_file)
+
+        # Load API Endpoints
+        api_endpoints = load_api_endpoints(api_file)
+
+        # # Generate and Execute Test Cases
+        # for path in api_endpoints['paths']:
+        #     # Assuming `api_endpoints` has information for each endpoint
+        #     # You might need to update how you get individual `api_endpoint`
+        #     api_endpoint = api_endpoints  # This needs to be the correct structure
+            
+        #     test_case = generate_test_cases(api_endpoint)
+        #     status_code, response_text = execute_test_case(api_endpoint)
+        #     logging.info(f"Test Case Result: {status_code}, Response: {response_text}")
+
+        #     advanced_cases = generate_advanced_test_cases(api_endpoint)
+        #     for case in advanced_cases:
+        #         status_code, response_text = execute_advanced_test_case(api_endpoint, case)
+        #         logging.info(f"Advanced Test Case Result: {status_code}, Response: {response_text}")
+
+    except Exception as e:
+        logging.error(f"Main execution error: {e}")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="API Security Test Script")
+    parser.add_argument('api_file', type=str, help='Path to the API endpoints JSON file')
+    args = parser.parse_args()
+
+    main(args.api_file)
+
+
+
+
 def generate_execute_evaluate_test_cases(endpoint, method, details):
     # Step 1: Generate super-advanced test cases
     generate_prompt = f"""
@@ -215,94 +504,39 @@ def process_api_documentation(api_data):
     
     # Write the HTML content to the log file
     html_content = HTML_TEMPLATE.format(content=content)
-    with open('test_case.log', 'w') as file:
+    with open('llm_test.html', 'w') as file:
         file.write(html_content)
 
-
-# 6. OWASP ZAP Scanning
-# 6. OWASP ZAP Scanning
-# 6. OWASP ZAP Scanning
-def perform_zap_scan(api_file):
-    try:
-        # Load API Endpoints
-        api_endpoints = load_api_endpoints(api_file)
-
-        # Run ZAP Spider
-        for path in api_endpoints['paths']:
-            url = f"{api_endpoints['servers'][0]['url']}{path}"
-            zap.spider.scan(url)
-            logging.info(f"Scanning URL: {url}")
-
-        # Wait for Spider to complete
-        while int(zap.spider.status()) < 100:
-            time.sleep(5)
-
-        # Run ZAP Active Scan
-        for path in api_endpoints['paths']:
-            url = f"{api_endpoints['servers'][0]['url']}{path}"
-            zap.ascan.scan(url)
-            logging.info(f"Active scanning URL: {url}")
-
-        # Wait for Active Scan to complete
-        while int(zap.ascan.status()) < 100:
-            time.sleep(5)
-
-        # Get Alerts
-        alerts = zap.core.alerts()
-        logging.info(f"Alerts: {alerts}")
-
-        # Save JSON Report
-        with open("zap_report.json", 'w') as f:
-            json.dump(alerts, f, indent=4)
-            logging.info("Saved ZAP Report (JSON)")
-
-        # Save HTML Report
-        html_report_path = "zap_report.html"
-        with open(html_report_path, 'w') as f:
-            f.write(zap.core.htmlreport())
-        logging.info(f"Saved ZAP Report (HTML) at {html_report_path}")
-
-        return alerts
-    except Exception as e:
-        logging.error(f"Error during ZAP scanning: {e}")
-        raise
-
-
-# Main Execution
-# Main Execution
-def main(api_file):
-    try:
-        # Perform ZAP Scan
-        alerts = perform_zap_scan(api_file)
-
-        # Load API Endpoints
-        api_endpoints = load_api_endpoints(api_file)
-
-        # # Generate and Execute Test Cases
-        # for path in api_endpoints['paths']:
-        #     # Assuming `api_endpoints` has information for each endpoint
-        #     # You might need to update how you get individual `api_endpoint`
-        #     api_endpoint = api_endpoints  # This needs to be the correct structure
-            
-        #     test_case = generate_test_cases(api_endpoint)
-        #     status_code, response_text = execute_test_case(api_endpoint)
-        #     logging.info(f"Test Case Result: {status_code}, Response: {response_text}")
-
-        #     advanced_cases = generate_advanced_test_cases(api_endpoint)
-        #     for case in advanced_cases:
-        #         status_code, response_text = execute_advanced_test_case(api_endpoint, case)
-        #         logging.info(f"Advanced Test Case Result: {status_code}, Response: {response_text}")
-
-    except Exception as e:
-        logging.error(f"Main execution error: {e}")
-
-
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="API Security Test Script")
-    parser.add_argument('api_file', type=str, help='Path to the API endpoints JSON file')
-    args = parser.parse_args()
+    # Load API documentation
+    api_data = load_api_endpoints('api_endpoints.json')
+    
+    # Process and generate test cases
+    process_api_documentation(api_data)
+    
+    print("Super-advanced test cases generated, executed, evaluated, and logged in test_case.log.")
 
-    main(args.api_file)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
