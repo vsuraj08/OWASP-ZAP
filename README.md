@@ -9,4 +9,4 @@ docker run -u zap -p 8080:8080 -i zaproxy/zap-stable zap.sh -daemon -host 0.0.0.
 
 in another terminal run 
 
-python main.py api_endpoints.yaml
+python main.py api_endpoints.json
